@@ -25,7 +25,7 @@ public class SimpleHttpClientUtil {
         HttpPost post = null;
         //创建httpclient对象
         CloseableHttpClient client = HttpClients.createDefault();
-        String url = "http://127.0.0.1:60005/upload_file";
+        String url = "http://192.168.99.100:60005/upload_file";
         // 创建uri
         post = new HttpPost(url);
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -40,7 +40,7 @@ public class SimpleHttpClientUtil {
             //按指定编码转换结果实体为String类型
             string = EntityUtils.toString(results, "UTF-8");
         }
-        System.out.println();
+        System.out.println(string);
         //释放
         EntityUtils.consume(entity);
         //释放链接

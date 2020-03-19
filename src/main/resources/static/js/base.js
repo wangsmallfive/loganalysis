@@ -570,7 +570,7 @@ function chart2(chartType) {
         },
         visualMap: {
             min: 0,
-            max: 25000,
+            max: 2500,
             left: 'right',
             top: 'bottom',
             text: ['高', '低'], // 文本，默认为数值文本
@@ -1795,7 +1795,7 @@ function chart4(data, type, chartType) {
         },
         visualMap: {
             min: 0,
-            max: 25000,
+            max: 2500,
             left: 'right',
             top: 'bottom',
             text: ['高', '低'], // 文本，默认为数值文本

@@ -47,7 +47,7 @@ function queryVideo() {
                     },
                     // 设置X轴数据旋转倾斜
                     axisLabel: {
-                        interval: 0  //设置X轴数据间隔几个显示一个，为0表示都显示
+                        interval: 3  //设置X轴数据间隔几个显示一个，为0表示都显示
                     },
                     data: vm.hour
                 },
@@ -240,7 +240,7 @@ function queryVideoMonth() {
                     },
                     // 设置X轴数据旋转倾斜
                     axisLabel: {
-                        interval: 0  //设置X轴数据间隔几个显示一个，为0表示都显示
+                        interval: 4  //设置X轴数据间隔几个显示一个，为0表示都显示
                     },
                     data: vm.hour
                 },

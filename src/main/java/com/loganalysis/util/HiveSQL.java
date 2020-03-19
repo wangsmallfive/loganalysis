@@ -26,7 +26,7 @@ public class HiveSQL {
     AnalysisValueService analysisValueService;
     public void createHive(){
         String driverName = "org.apache.hive.jdbc.HiveDriver";
-        String url = "jdbc:hive2://127.0.0.1:60007/default";
+        String url = "jdbc:hive2://192.168.99.100:60007/default";
         Connection connection = null;
         try {
             Class.forName(driverName);

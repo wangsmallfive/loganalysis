@@ -30,7 +30,7 @@ public class FileForCsv {
     @Autowired
     ResObject resultData;
     @RequestMapping("/searchHive")
-    public ResObject searchHive(){
+    public String  searchHive(){
         //开始生成日志内容并返回日志地址
         String filePath = FilesCvs.writeCsv();
         try {
@@ -41,6 +41,6 @@ public class FileForCsv {
         }
         //处理分析日志并后返回结果
         hiveSQL.createHive();
-        return resultData.ResSuccess(true);
+        return "redirect:/queryAnalysis";
     }
 }

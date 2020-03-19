@@ -22,7 +22,7 @@ public class FilesCvs {
     public static String  writeCsv(){
         try {
             OutputStream fos = new FileOutputStream("src/main/resources/cvs/t_analysis.csv");
-            for (int i = 0; i < 200000; i++) {
+            for (int i = 0; i < 20000; i++) {
                 String outLog = (i+1)+","+outLog();
                 String newLine = System.getProperty("line.separator");
                 fos.write(outLog.getBytes("UTF-8"));    //将字符串变成字节byte数组，使用UTF-8编码
