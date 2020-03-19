@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loganalysis.dao.AnalysisMapper">
+
+
+    <resultMap id="result" type="com.loganalysis.entity.TAnalysis">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="video_name" property="videoName" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="video_duration" property="videoDuration" jdbcType="VARCHAR"/>
+        <result column="play_percentage" property="playPercentage" jdbcType="VARCHAR"/>
+        <result column="platform" property="platform" jdbcType="VARCHAR"/>
+        <result column="is_comment" property="isComment" jdbcType="INTEGER"/>
+        <result column="is_forward" property="isForward" jdbcType="INTEGER"/>
+        <result column="is_like" property="isLike" jdbcType="INTEGER"/>
+
+
+    </resultMap>
+    <insert id="insertAnalysis" parameterType="java.util.List">
+        INSERT INTO t_analysis (video_name, city,create_time,video_duration,play_percentage,
+        platform,is_comment,is_forward,is_like) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.videoName,jdbcType=VARCHAR}, #{item.city,jdbcType=VARCHAR}, #{item.createTime,jdbcType=VARCHAR},
+            #{item.videoDuration,jdbcType=VARCHAR},
+            #{item.playPercentage,jdbcType=VARCHAR}, #{item.platform,jdbcType=VARCHAR}, #{item.isComment,jdbcType=INTEGER},
+            #{item.isForward,jdbcType=INTEGER}, #{item.isLike,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+    <select id="getCity" resultType="java.util.Map">
+    SELECT city as area,count(*) as cnt FROM db_loganalysis.t_analysis group by city;
+    </select>
+    <select id="getPlatform" resultType="java.util.Map">
+    SELECT platform as  name,count(*) as value FROM db_loganalysis.t_analysis group by platform order  by platform
+    </select>
+    <select id="getWeek" resultType="String">
+    SELECT count(1) as week FROM db_loganalysis.t_analysis WHERE YEARWEEK(date_format(create_time,'%Y-%m-%d'),1) = YEARWEEK(now(),1) group by date_format(create_time,'%Y-%m-%d') order by date_format(create_time,'%Y-%m-%d')
+    </select>
+    <select id="getvideoInfo" resultType="java.util.Map">
+    select video_name name ,count(1) cnt ,max(video_duration) as duration,
+sum(is_comment) as comment,sum(is_forward) as forward,sum(is_like) as isLike from db_loganalysis.t_analysis group by video_name
+    </select>
+    <select id="queryVideoByHour" parameterType="String" resultType="java.util.Map">
+    select date_format(create_time,'%Y-%m-%d %H:00') hour, count(1) cnt,
+      sum(is_comment) as comment,sum(is_forward) as forward,sum(is_like) as isLike
+      from t_analysis where date_format(create_time,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d') and video_name = #{_parameter}
+      group by date_format(create_time,'%Y-%m-%d %H:00') order by date_format(create_time,'%Y-%m-%d %H:00')
+
+    </select>
+    <select id="queryVideoByDay" parameterType="String" resultType="java.util.Map">
+    select date_format(create_time,'%Y-%m-%d') hour, count(1) cnt,
+      sum(is_comment) as comment,sum(is_forward) as forward,sum(is_like) as isLike
+      from t_analysis where YEARWEEK(date_format(create_time,'%Y-%m-%d'),1) = YEARWEEK(now(),1) and video_name = #{_parameter}
+      group by date_format(create_time,'%Y-%m-%d') order by date_format(create_time,'%Y-%m-%d')
+
+    </select>
+    <select id="queryVideoByMonth" parameterType="String" resultType="java.util.Map">
+        select date_format(create_time,'%Y-%m') hour, count(1) cnt,
+      sum(is_comment) as comment,sum(is_forward) as forward,sum(is_like) as isLike
+      from t_analysis where YEAR(date_format(create_time,'%Y-%m-%d') )= YEAR(date_format(now(),'%Y-%m-%d')) and video_name = #{_parameter}
+      group by date_format(create_time,'%Y-%m') order by date_format(create_time,'%Y-%m')
+
+
+    </select>
+</mapper>

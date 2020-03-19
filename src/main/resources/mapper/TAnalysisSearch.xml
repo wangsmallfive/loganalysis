@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loganalysis.dao.AnalysisSearchMapper">
+
+
+    <resultMap id="result" type="com.loganalysis.entity.TAnalysisSearch">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="unit" property="unit" jdbcType="VARCHAR"/>
+        <result column="video_name" property="videoName" jdbcType="VARCHAR"/>
+        <result column="cnt" property="cnt" jdbcType="VARCHAR"/>
+        <result column="hours" property="hours" jdbcType="VARCHAR"/>
+        <result column="comment" property="comment" jdbcType="VARCHAR"/>
+        <result column="forward" property="forward" jdbcType="VARCHAR"/>
+        <result column="isLike" property="isLike" jdbcType="VARCHAR"/>
+
+    </resultMap>
+    <insert id="insertAnalysisSearch" parameterType="java.util.List">
+        INSERT INTO t_analysisSearch (unit,video_name,cnt,hours,comment,forward,isLike) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.unit,jdbcType=VARCHAR},#{item.videoName,jdbcType=VARCHAR}, #{item.cnt,jdbcType=VARCHAR}, #{item.hours,jdbcType=VARCHAR}
+            , #{item.comment,jdbcType=VARCHAR}, #{item.forward,jdbcType=VARCHAR}, #{item.isLike,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+    <delete id="deleteAnalysisSearch">
+        delete from t_analysisSearch
+    </delete>
+    <select id="getvideoInfo" parameterType="String" resultType="java.util.Map">
+    select video_name as name ,cnt,hours as duration,comment,forward,isLike from t_analysisSearch where unit='info'
+    </select>
+    <select id="queryVideoByHour" parameterType="String" resultType="java.util.Map">
+    select hours as hour,cnt,comment,forward,isLike from t_analysisSearch where unit='week' and video_name = #{_parameter}
+    </select>
+    <select id="queryVideoByDay" parameterType="String" resultType="java.util.Map">
+    select hours as hour,cnt,comment,forward,isLike from t_analysisSearch where unit='month' and video_name = #{_parameter}
+    </select>
+    <select id="queryVideoByMonth" parameterType="String" resultType="java.util.Map">
+    select hours as hour,cnt,comment,forward,isLike from t_analysisSearch where unit='year' and video_name = #{_parameter}
+    </select>
+
+</mapper>
